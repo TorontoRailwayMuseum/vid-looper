@@ -1,3 +1,7 @@
+## Just forked to update the player. Omxplayer no longer supported, so now using VLC.
+
+The rest of this README is unchanged:
+
 # rpi-vidlooper
 
 A video looper for the Raspberry Pi, controlled by GPIO pins. Designed to
