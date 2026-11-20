@@ -65,9 +65,9 @@ class VidLooper(object):
     # The process of the active video player
     _p = None
 
-    def __init__(self, audio='hdmi', autostart=True, restart_on_press=False,
+    def __init__(self, autostart=True, restart_on_press=False, #audio='hdmi'
                  video_dir=os.getcwd(), videos=None, gpio_pins=None, loop=True,
-                 no_osd=False, shutdown_pin=None, splash=None, debug=False):
+                 no_osd=False, shutdown_pin=None, splash=None, debug=False): 
         # Use default GPIO pins, if needed
         if gpio_pins is None:
             gpio_pins = self._GPIO_PIN_DEFAULT.copy()
@@ -96,8 +96,8 @@ class VidLooper(object):
 
         self.debug = debug
 
-        assert audio in ('hdmi', 'local', 'both'), "Invalid audio choice"
-        self.audio = audio
+        # assert audio in ('hdmi', 'local', 'both'), "Invalid audio choice"
+        # self.audio = audio
 
         self.autostart = autostart
         self.restart_on_press = restart_on_press
@@ -131,7 +131,7 @@ class VidLooper(object):
                 # Start a new video player process, capture STDOUT to keep the
                 # screen clear. Set a session ID (os.setsid) to allow us to kill
                 # the whole video player process tree.
-                cmd = ['omxplayer', '-b', '-o', self.audio]
+                cmd = ['cvlc', '--fullscreen', '--no-video-title-show'] # ['omxplayer', '-b', '-o', self.audio]
                 if self.loop:
                     cmd += ['--loop']
                 if self.no_osd:
@@ -234,10 +234,12 @@ This video player uses omxplayer, a hardware-accelerated video player for the
 Raspberry Pi, which must be installed separately.
 """
     )
+    """
     parser.add_argument('--audio', default='hdmi',
                         choices=('hdmi', 'local', 'both'),
                         help='Output audio over HDMI, local (headphone jack),'
                              'or both')
+    """
     parser.add_argument('--no-autostart', action='store_false',
                         dest='autostart', default=True,
                         help='Don\'t start playing a video on startup')
