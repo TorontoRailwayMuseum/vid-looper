@@ -16,7 +16,7 @@ def main():
         author='Alex Lubbock, Ensor Moriarty',
         author_email='code@alexlubbock.com, emoriarty@trha.ca',
         packages=find_packages(),
-        install_requires=['RPi.GPIO'],
+        install_requires=['rpi-lgpio'], # oudated: 'RPi.GPIO'],
         cmdclass=versioneer.get_cmdclass(),
         zip_safe=True,
         entry_points = {

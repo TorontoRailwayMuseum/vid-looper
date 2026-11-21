@@ -131,7 +131,7 @@ class VidLooper(object):
                 # Start a new video player process, capture STDOUT to keep the
                 # screen clear. Set a session ID (os.setsid) to allow us to kill
                 # the whole video player process tree.
-                cmd = ['cvlc', '--fullscreen', '--no-video-title-show'] # ['omxplayer', '-b', '-o', self.audio]
+                cmd = ['cvlc', '--fullscreen', '--no-video-title-show', '--aout=alsa'] # ['omxplayer', '-b', '-o', self.audio]
                 if self.loop:
                     cmd += ['--loop']
                 if self.no_osd:
@@ -231,7 +231,7 @@ input pin; works well with switches with built-in LEDs, but separate LEDs work
 too).
 
 This video player uses omxplayer... NOPE --> just kidding, uses VLC - Hey, this is Ensor. 
-I forked this project and made minor changes to get it using VLC ;)
+I forked this project and made minor changes to get it using ;)
 """
     )
     """
