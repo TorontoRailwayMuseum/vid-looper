@@ -230,8 +230,8 @@ The active video can optionally be indicated by an LED (one output for each
 input pin; works well with switches with built-in LEDs, but separate LEDs work
 too).
 
-This video player uses omxplayer, a hardware-accelerated video player for the
-Raspberry Pi, which must be installed separately.
+This video player uses omxplayer... NOPE --> just kidding, uses VLC - Hey, this is Ensor. 
+I forked this project and made minor changes to get it using VLC ;)
 """
     )
     """
