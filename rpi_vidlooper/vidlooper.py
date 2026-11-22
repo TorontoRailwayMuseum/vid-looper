@@ -128,6 +128,14 @@ class VidLooper(object):
             if filename != self._active_vid or self.restart_on_press:
                 # Kill any previous video player process
                 self._kill_process()
+
+                #### TRM Addition:
+                # Kill any active splash screen
+                if self._splashproc:
+                    os.killpg(os.getpgid(self._splashproc.pid), signal.SIGKILL)
+                    self._splashproc = None
+                ####
+
                 # Start a new video player process, capture STDOUT to keep the
                 # screen clear. Set a session ID (os.setsid) to allow us to kill
                 # the whole video player process tree.
@@ -192,6 +200,7 @@ class VidLooper(object):
                         pid = self._p.pid
                         self._p.communicate()
                     if self._p:
+                        # means video is done I think
                         if self._p.pid == pid:
                             # Reset LEDs
                             for out_pin in self.gpio_pins.values():
@@ -199,6 +208,12 @@ class VidLooper(object):
                                     GPIO.output(out_pin, GPIO.LOW)
                             self._active_vid = None
                             self._p = None
+                            ##### TRM Addition:
+                            #restore splash
+                            if self.splash is not None:
+                                if self._splashproc is not None:
+                                    self._splashproc = Popen(['fbi', '--noverbose', '-a', self.splash])
+                            ######
 
         finally:
             self.__del__()

@@ -1,4 +1,66 @@
-## Just forked to update the player. Omxplayer no longer supported, so now using VLC.
+## Just forked to update outdated packages and make minor tweaks 
+
+#### i.e. Omxplayer no longer supported, so now using VLC.
+
+## Notes for maintenance:
+
+In worst case where you have to set it up again from scratch, these are the steps I took to get this set up:
+
+### First, on raspberry pi, need to bring in this fork
+- Use git clone to clone this repo on pi
+    - (If changes ever made to this repo, be sure to call git pull in the repo folder on the pi)
+
+### Compile this project as an easily invokable package
+- First create a virtual env to contain it and it's dependencies 
+    - python -m venv \[path-for-venv\]
+- Enter venv with:
+    - source \[path-to-venv\]/bin/activate
+- From in venv, navigate to project (same level as setup.py) and call:
+    - pip install -e . 
+    - (e flag makes it "editable", so will dynamically update package in case changes ever made)
+
+### Setup Pi to initialize and run exhibit as a daemon on startup
+
+#### Optional: Set it up to use a usb stick so can just change the videos on the stick, and plug it back in to update exhibit.
+Since stick is external, need to make sure it's always mounted on startup. 
+- First, make the directory to mount the stick at. I used:
+    - sudo mkdir -p /mnt/video-usb
+- Find the usb's UUID with:
+    - lsblk -f
+- Edit /etc/fstab to include mount as part of initialization:
+    - sudo nano /etc/fstab
+- Append this to end of file:
+    - UUID=\[UUID of usb\] \[path-to-mount\]  \[usb's filetype (vfat or whatever)\]    defaults,nofail   0       0
+
+### To Get vidlooper to start on startup:
+I made a .service file to be invoked on startup once everything is initialized and its ready to let users sign in.
+- Made the following file in the services path:
+    - sudo nano /etc/systemd/system/vidlooper.service
+- Threw this in:
+    ```
+    [Unit]
+    Description=Museum Video Looper
+    After=systemd-user-sessions.service
+    Wants=systemd-user-sessions.service
+
+    [Service]
+    Type=simple
+    User=trm
+    WorkingDirectory=/home/trm
+
+    ExecStart=/home/trm/vidlooper-venv/bin/vidlooper --splash /mnt/video-usb/Splash-Image/splash.jpg --no-loop --countdown=5 --gpio-pins 26:21,19:20,13:16 --video-dir /mnt/video-usb/Play-Me
+
+    [Install]
+    WantedBy=multi-user.target
+    ```
+
+### If you want to change the videos or splash image
+Update it right on the usb and plug it back in.
+
+### If you want to change the button layout, or settings
+Go into the service file at /etc/systemd/system/video-looper.service 
+
+If changing the GPIO pins, refer to https://pinout.xyz/pinout/3v3_power to get their numbers.
 
 The rest of this README is unchanged:
 
