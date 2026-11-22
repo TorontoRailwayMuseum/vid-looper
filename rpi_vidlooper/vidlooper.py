@@ -180,7 +180,7 @@ class VidLooper(object):
         if self.autostart:
             if self.splash is not None:
                 self._splashproc = Popen(['fbi', '--noverbose', '-a',
-                                          self.splash])
+                                          self.splash], preexec_fn=os.setsid)
             else:
                 # Start playing first video
                 self.switch_vid(self.in_pins[0])
@@ -212,7 +212,7 @@ class VidLooper(object):
                             #restore splash
                             if self.splash is not None:
                                 if self._splashproc is not None:
-                                    self._splashproc = Popen(['fbi', '--noverbose', '-a', self.splash])
+                                    self._splashproc = Popen(['fbi', '--noverbose', '-a', self.splash],  preexec_fn=os.setsid)
                             ######
 
         finally:
