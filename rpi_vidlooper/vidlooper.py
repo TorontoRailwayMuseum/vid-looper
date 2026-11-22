@@ -208,12 +208,11 @@ class VidLooper(object):
                                     GPIO.output(out_pin, GPIO.LOW)
                             self._active_vid = None
                             self._p = None
-                            ##### TRM Addition:
-                            #restore splash
-                            if self.splash is not None:
-                                if self._splashproc is None:
-                                    self._splashproc = Popen(['fbi', '--noverbose', '-a', self.splash],  preexec_fn=os.setsid)
-                            ######
+                ##### TRM Addition:
+                #restore splash
+                if self._p is None and self._splashproc is None and self.splash is not None:
+                    self._splashproc = Popen(['fbi', '--noverbose', '-a', self.splash],  preexec_fn=os.setsid)
+                ######
 
         finally:
             self.__del__()
