@@ -129,13 +129,6 @@ class VidLooper(object):
                 # Kill any previous video player process
                 self._kill_process()
 
-                #### TRM Addition:
-                # Kill any active splash screen
-                if self._splashproc:
-                    os.killpg(os.getpgid(self._splashproc.pid), signal.SIGKILL)
-                    self._splashproc = None
-                ####
-
                 # Start a new video player process, capture STDOUT to keep the
                 # screen clear. Set a session ID (os.setsid) to allow us to kill
                 # the whole video player process tree.
@@ -148,6 +141,13 @@ class VidLooper(object):
                                 stdout=None if self.debug else PIPE,
                                 preexec_fn=os.setsid)
                 self._active_vid = filename
+
+                #### TRM Addition:
+                # Kill any active splash screen
+                if self._splashproc:
+                    os.killpg(os.getpgid(self._splashproc.pid), signal.SIGKILL)
+                    self._splashproc = None
+                ####
 
     @property
     def in_pins(self):
