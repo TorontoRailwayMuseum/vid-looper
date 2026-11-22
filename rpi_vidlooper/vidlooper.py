@@ -139,7 +139,7 @@ class VidLooper(object):
                 # Start a new video player process, capture STDOUT to keep the
                 # screen clear. Set a session ID (os.setsid) to allow us to kill
                 # the whole video player process tree.
-                cmd = ['cvlc', '--fullscreen', '--no-video-title-show', '--aout=alsa'] # ['omxplayer', '-b', '-o', self.audio]
+                cmd = ['cvlc', '--play-and-exit', '--fullscreen', '--no-video-title-show', '--aout=alsa'] # ['omxplayer', '-b', '-o', self.audio]
                 if self.loop:
                     cmd += ['--loop']
                 if self.no_osd:
@@ -208,6 +208,7 @@ class VidLooper(object):
                                     GPIO.output(out_pin, GPIO.LOW)
                             self._active_vid = None
                             self._p = None
+                
                 ##### TRM Addition:
                 #restore splash
                 if self._p is None and self._splashproc is None and self.splash is not None:
