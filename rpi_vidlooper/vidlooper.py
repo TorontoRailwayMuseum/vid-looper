@@ -211,7 +211,7 @@ class VidLooper(object):
                             ##### TRM Addition:
                             #restore splash
                             if self.splash is not None:
-                                if self._splashproc is not None:
+                                if self._splashproc is None:
                                     self._splashproc = Popen(['fbi', '--noverbose', '-a', self.splash],  preexec_fn=os.setsid)
                             ######
 
