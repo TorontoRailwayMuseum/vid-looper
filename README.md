@@ -33,26 +33,12 @@ Since stick is external, need to make sure it's always mounted on startup.
     - UUID=\[UUID of usb\] \[path-to-mount\]  \[usb's filetype (vfat or whatever)\]    defaults,nofail   0       0
 
 ### To Get vidlooper to start on startup:
-I made a .service file to be invoked on startup once everything is initialized and its ready to let users sign in.
-- Made the following file in the services path:
-    - sudo nano /etc/systemd/system/vidlooper.service
-- Threw this in:
-    ```
-    [Unit]
-    Description=Museum Video Looper
-    After=systemd-user-sessions.service
-    Wants=systemd-user-sessions.service
+- I set the raspberry pi to login automatically on startup:
+    - sudo raspi-config
+    - System Options > Auto Login > Yes
+- Threw this command at the bottom of ~/.bashrc, which runs as soon as user logs in:
+    - ExecStart=/home/trm/vidlooper-venv/bin/vidlooper --splash /mnt/video-usb/Splash-Image/splash.jpg --no-loop --countdown=5 --gpio-pins 26:21,19:20,13:16 --video-dir /mnt/video-usb/Play-Me
 
-    [Service]
-    Type=simple
-    User=trm
-    WorkingDirectory=/home/trm
-
-    ExecStart=/home/trm/vidlooper-venv/bin/vidlooper --splash /mnt/video-usb/Splash-Image/splash.jpg --no-loop --countdown=5 --gpio-pins 26:21,19:20,13:16 --video-dir /mnt/video-usb/Play-Me
-
-    [Install]
-    WantedBy=multi-user.target
-    ```
 
 ### If you want to change the videos or splash image
 Update it right on the usb and plug it back in.
